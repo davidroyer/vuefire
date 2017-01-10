@@ -1,13 +1,18 @@
 <template>
   <div id="app">
 
-    <transition name="slide" mode="out-in">
 
-        <el-button v-if="!sharedState.authorized" type="primary" @click="login">Login</el-button>
-        <el-button v-else type="primary" @click="logout">Logout</el-button>
+    <transition-group name="slide" mode="in-out">
 
-    </transition>
+      <div class="wrapper" v-if="!sharedState.authorized":key="login">
+        <el-button   type="primary" @click="login">Login</el-button>
+        <el-button  type="primary" @click="signup">Signup</el-button>
+      </div>
+        <div class="wrapper" v-else :key="logout">
+          <el-button  type="primary"  @click="logout">Logout</el-button>
+        </div>
 
+    </transition-group>
 
     <ul>
        <li>
@@ -29,10 +34,15 @@
         {{post['.key']}}
       </li>
     </ul> -->
-    <button type="button" name="button" @click="login">
+    <!-- <button type="button" name="button" @click="login">
     Login</button>
     <button type="button" name="button" @click="signup">Sign Up</button>
-    <button type="button" name="button" @click="logout">Logout</button>
+    <button type="button" name="button" @click="logout">Logout</button> -->
+
+
+
+
+
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
@@ -192,5 +202,8 @@ top: 0;
   height: initial;
   /*left: 0;*/
   /*position: absolute;*/
+}
+.wrapper {
+  position: relative;
 }
 </style>
