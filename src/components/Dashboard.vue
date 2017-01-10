@@ -8,7 +8,7 @@
       <mu-list-item v-for="post in dbPosts" :key="post['.key']" :title="post.title">
         <div class="icon-button-contaner" slot="right">
           <mu-icon-button icon="edit" @click="handleEditClick(post)" />
-          <mu-icon-button icon="delete" />
+          <mu-icon-button icon="delete" @click="deletePost(post)"/>
         </div>
       </mu-list-item>
     </mu-list>
@@ -16,20 +16,26 @@
 
   <mu-drawer right :open="open" @close="toggle()">
     <!-- <mu-appbar title="Muse UI"/> -->
-    <mu-sub-header>Edit Post</mu-sub-header>
-    <div v-if="edit" class="editPost">
-      <!-- <input type="text" v-model="edit.title"> -->
-      <el-input v-model="edit.title"></el-input>
-      <el-input type="textarea" :autosize="{ minRows: 8, maxRows: 20}" placeholder="Please input" v-model="edit.content">
-      </el-input>
 
-      <!-- <textarea rows="8" cols="80" v-model="edit.content"></textarea> -->
+    <div v-if="edit" class="editPost">
+      <h1>Edit Post</h1>
+      <mu-text-field label="Post Title" v-model="edit.title"/>
+      <mu-text-field label="Post Content" multiLine :rows="3" v-model="edit.content"></mu-text-field>
       <mu-raised-button label="Save" class="demo-raised-button" primary @click="updatePost(edit)" />
-      <mu-raised-button label="Cancel" class="demo-raised-button" secondary @click="open = false" />
+      <mu-raised-button label="Cancel" class="demo-raised-button" secondary @click="cancelEdit" />
+    </div>
+
+    <div v-if="createNewPost" class="createNewPost">
+      <h1>New Post</h1>
+
+      <mu-text-field label="Post Title" v-model="newTitle" labelFloat/>
+      <mu-text-field label="Post Content" multiLine :rows="3" v-model="newContent" labelFloat></mu-text-field>
+      <mu-raised-button label="Save" class="demo-raised-button" primary @click="saveNewPost(newTitle, newContent)" />
+      <mu-raised-button label="Cancel" class="demo-raised-button" secondary @click="cancelNewPost" />
     </div>
 
   </mu-drawer>
-
+ <mu-float-button icon="add" secondary mini class="addPost" @click="handleNewPost"/>
   <!-- <label>
       Email
       <input type="text" v-model="email">
@@ -67,7 +73,11 @@ export default {
       edit: null,
       uploadProgress: 0,
       newImageURL: null,
-      open: false
+      open: false,
+      createNewPost: false,
+      newTitle: '',
+      newContent: ''
+
     }
   },
 
@@ -80,6 +90,11 @@ export default {
       this.open = !this.open
     },
 
+    handleNewPost() {
+      this.createNewPost = true
+      this.toggle()
+    },
+
     handleEditClick(post) {
       let postToEdit = post
       this.edit = postToEdit
@@ -87,8 +102,29 @@ export default {
       this.toggle()
     },
 
-    canceEdit() {
+    cancelEdit() {
+      this.open = false
       this.edit = null
+    },
+
+    cancelNewPost() {
+      this.open = false
+      this.createNewPost = false
+      this.newTitle = ''
+      this.newContent = ''
+
+    },
+
+    saveNewPost(newTitle, newContent) {
+      postsRef.push({
+        title: newTitle,
+        content: newContent
+      })
+      this.toggle()
+    },
+
+    deletePost(post) {
+      postsRef.child(post['.key']).remove()
     },
 
     handleUpload(event) {
@@ -148,6 +184,16 @@ export default {
 
 <style lang="scss">
 
+.addPost {
+  position: fixed;
+    bottom: 20px;
+    right: 10px;
+}
+
+.mu-item-content {
+  width: 90%;
+}
+
 .mu-drawer {
   width: 100%;
 
@@ -192,6 +238,9 @@ export default {
     }
 }
 
+.createNewPost {
+  padding: 1em;
+}
 // Edit Post Section
 .editPost {
     padding: 1em;

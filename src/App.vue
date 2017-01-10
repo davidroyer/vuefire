@@ -2,26 +2,36 @@
   <div id="app">
 
     <mu-appbar title="VueFire">
+      <mu-icon-button icon='menu' slot="left" @click="toggleMenu()"/>
       <mu-flat-button v-if="!sharedState.authorized" key="public" color="white" label="Login" slot="right" @click="login"/>
       <mu-flat-button v-else key="admin" color="white" label="Logout" slot="right" @click="logout"/>
     </mu-appbar>
 
-<!-- <ul>
-   <li>
-     <router-link to="/logout">Log out</router-link>
+    <mu-drawer left :open="menuIsOpen" @close="toggleMenu()" width="280px">
+      <mu-appbar title="Muse UI"/>
+      <!-- <mu-list> -->
+        <ul>
+          <li>
+            <router-link to="/">Home</router-link>
+          </li>
+           <li>
+             <router-link to="/logout">Log out</router-link>
 
-   </li>
-    <li>
-      <router-link to="/admin">Admin</router-link>
-    </li>
-    <li>
-      <router-link to="/login">Log in</router-link>
-    </li>
-   <li>
-     <router-link to="/dashboard">Dashboard</router-link>
+           </li>
+            <li>
+              <router-link :to="{path: '/vuefire/admin'}" append>Admin</router-link>
+            </li>
+            <li>
+              <router-link to="/login">Log in</router-link>
+            </li>
+           <li>
+             <router-link to="/dashboard">Dashboard</router-link>
+           </li>
+        </ul>
+        <mu-flat-button label="Close" class="demo-flat-button" @click="menuIsOpen = false" backgroundColor="#eee"/>
 
-   </li>
-</ul> -->
+    </mu-drawer>
+
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
@@ -61,7 +71,8 @@ export default {
       password: 'Dance4life',
       posts: [],
       photo: null,
-      sharedState: store.state
+      sharedState: store.state,
+      menuIsOpen: false
     }
   },
 
@@ -83,6 +94,10 @@ export default {
   methods: {
     handleClick() {
       alert('click')
+    },
+
+    toggleMenu() {
+      this.menuIsOpen = !this.menuIsOpen
     },
 
     login() {

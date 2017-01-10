@@ -50,12 +50,12 @@ const router = new VueRouter({
   mode: 'history',
   base: __dirname,
   routes: [
-    // { path: '/', component: Login  },
-    { path: '/admin', component: Admin },
-    { path: '/dashboard', component: Dashboard},
+    { path: '/', component: Login  },
+    { path: '*/admin', component: Admin },
+    { path: '*/dashboard', component: Dashboard},
     // { path: '/dashboard', component: Dashboard},
-    { path: '/login', component: Login },
-    { path: '/logout', component: Logout },
+    { path: '*/login', component: Login },
+    { path: '*/logout', component: Logout },
     // { path: '/logout',
     //   beforeEnter (to, from, next) {
     //     auth.logout()
