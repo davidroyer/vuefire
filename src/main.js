@@ -7,14 +7,18 @@ import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
+// import VueMaterial from 'vue-material'
+// import 'vue-material/dist/vue-material.css'
 Vue.use(MuseUI)
 Vue.use(VueFire)
 Vue.use(ElementUI)
 Vue.use(VueRouter)
+// Vue.use(VueMaterial)
 // import auth from './auth'
 
 const state = store.state
 
+import Admin from './components/Admin.vue'
 import Dashboard from './components/Dashboard.vue'
 import Login from './components/Login.vue'
 import Logout from './components/Logout.vue'
@@ -26,7 +30,11 @@ function requireAuth (to, from, next) {
       query: { redirect: to.fullPath }
     })
   } else {
-    next()
+    // next()
+    next({
+      path: '/admin',
+      query: { redirect: to.fullPath }
+    })
   }
 }
 // console.log(state.authorized);
@@ -42,8 +50,9 @@ const router = new VueRouter({
   mode: 'history',
   base: __dirname,
   routes: [
-    // { path: '/about', component: About },
-    { path: '/dashboard', component: Dashboard, beforeEnter: requireAuth },
+    // { path: '/', component: Login  },
+    { path: '/admin', component: Admin },
+    { path: '/dashboard', component: Dashboard},
     // { path: '/dashboard', component: Dashboard},
     { path: '/login', component: Login },
     { path: '/logout', component: Logout },

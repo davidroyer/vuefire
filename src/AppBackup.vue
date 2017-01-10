@@ -6,22 +6,52 @@
       <mu-flat-button v-else key="admin" color="white" label="Logout" slot="right" @click="logout"/>
     </mu-appbar>
 
-<!-- <ul>
-   <li>
-     <router-link to="/logout">Log out</router-link>
+    <!-- <transition name="fade" mode="out-in">
+      <admin v-if="sharedState.authorized" key="admin" @logoutClicked="logout"></admin>
+      <public v-else key="public" @loginClicked="login"></public>
+    </transition> -->
+    <!-- <transition-group name="slide" mode="in-out">
 
-   </li>
-    <li>
-      <router-link to="/admin">Admin</router-link>
-    </li>
-    <li>
-      <router-link to="/login">Log in</router-link>
-    </li>
-   <li>
-     <router-link to="/dashboard">Dashboard</router-link>
+      <div class="wrapper" v-if="!sharedState.authorized" :key="login">
+        <el-button   type="primary" @click="login">Login</el-button>
+        <el-button  type="primary" @click="signup">Signup</el-button>
+      </div>
+        <div class="wrapper" v-else :key="logout">
+          <el-button  type="primary"  @click="logout">Logout</el-button>
+        </div>
 
-   </li>
-</ul> -->
+    </transition-group> -->
+<el-button type="primary" @click="login">Login</el-button>
+<el-button type="primary"  @click="logout">Logout</el-button>
+    <ul>
+       <li>
+         <router-link to="/logout">Log out</router-link>
+
+       </li>
+        <li>
+          <router-link to="/login">Log in</router-link>
+        </li>
+       <li>
+         <router-link to="/dashboard">Dashboard</router-link>
+
+       </li>
+    </ul>
+
+    <!-- <ul>
+      <li v-for="post in fbPosts">
+        {{post.title}}
+        {{post['.key']}}
+      </li>
+    </ul> -->
+    <!-- <button type="button" name="button" @click="login">
+    Login</button>
+    <button type="button" name="button" @click="signup">Sign Up</button>
+    <button type="button" name="button" @click="logout">Logout</button> -->
+
+
+
+
+
     <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
@@ -30,28 +60,29 @@
 </template>
 
 <script>
-// var config = {
-//   apiKey: 'AIzaSyCNIjlw4gVqGQgSr6pvcHqmWK4eA1KnTyk',
-//   authDomain: 'vue-firebase-e123d.firebaseapp.com',
-//   databaseURL: 'https://vue-firebase-e123d.firebaseio.com',
-//   storageBucket: 'vue-firebase-e123d.appspot.com',
-//   messagingSenderId: '121034532316'
-// }
+var config = {
+  apiKey: 'AIzaSyCNIjlw4gVqGQgSr6pvcHqmWK4eA1KnTyk',
+  authDomain: 'vue-firebase-e123d.firebaseapp.com',
+  databaseURL: 'https://vue-firebase-e123d.firebaseio.com',
+  storageBucket: 'vue-firebase-e123d.appspot.com',
+  messagingSenderId: '121034532316'
+}
 
-import {store, db, auth} from './AppStore.js'
-// import Admin from './components/Admin'
-// import Public from './components/Public'
-// var firebase = require('firebase')
-// var firebaseApp = firebase.initializeApp(config)
-// const auth = firebase.auth()
+import {store} from './AppStore.js'
+import Admin from './components/Admin'
+import Public from './components/Public'
+var firebase = require('firebase')
+var firebaseApp = firebase.initializeApp(config)
+
+const auth = firebase.auth()
 
 
 
 export default {
   name: 'app',
   components: {
-    // Public,
-    // Admin
+    Public,
+    Admin
   },
 
   data () {
