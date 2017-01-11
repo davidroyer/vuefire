@@ -22,10 +22,7 @@
 </transition-group>
     <!-- </mu-list> -->
   </div>
-  <vue-editor
-    :use-save-button="false"
-    :show-preview="true">
-  </vue-editor>
+
   <mu-drawer right :open="open" @close="toggle()">
     <!-- <mu-appbar title="Muse UI"/> -->
 
@@ -67,7 +64,7 @@
 </template>
 
 <script>
-import { VueEditor } from 'vue2-editor'
+
 import {
   store,
   db,
@@ -96,7 +93,7 @@ export default {
   },
 
   components: {
-    VueEditor
+
   },
 
   firebase: {

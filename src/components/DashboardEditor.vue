@@ -28,14 +28,16 @@
 
     <div v-if="edit" class="editPost">
       <h1>Edit Post</h1>
+
       <mu-text-field label="Post Title" v-model="edit.title"/>
 
+      <label>Post Content</label>
       <vue-editor
         :use-save-button="false"
-        :editor-content="contentForEditor"
+        :editorContent="htmlForEditor"
         @editor-updated="handleEditedContent">
       </vue-editor>
-      <mu-text-field label="Post Content" multiLine :rows="3" v-model="edit.content"></mu-text-field>
+      <!-- <mu-text-field label="Post Content" multiLine :rows="3" v-model="edit.content"></mu-text-field> -->
       <mu-raised-button label="Save" class="demo-raised-button" primary @click="updatePost(edit)" />
       <mu-raised-button label="Cancel" class="demo-raised-button" secondary @click="cancelEdit" />
     </div>
@@ -51,8 +53,10 @@
       </vue-editor>
 
       <!-- <mu-text-field @keyup.native.enter.prevent="saveNewPost(newTitle, newContent)" label="Post Content" multiLine :rows="3" v-model="newContent" labelFloat></mu-text-field> -->
-      <mu-raised-button label="Save" class="demo-raised-button" primary @click="saveNewPost(newTitle, newContent)" />
-      <mu-raised-button label="Cancel" class="demo-raised-button" secondary @click="cancelNewPost" />
+      <div class="icon-button-contaner" slot="right">
+        <mu-raised-button label="Save" class="demo-raised-button" primary @click="saveNewPost(newTitle, newContent)" />
+        <mu-raised-button label="Cancel" class="demo-raised-button" secondary @click="cancelNewPost" />
+      </div>
     </div>
 
   </mu-drawer>
@@ -98,7 +102,9 @@ export default {
       open: false,
       createNewPost: false,
       newTitle: '',
-      newContent: ''
+      newContent: '',
+      contentForEditor: 'test',
+      htmlForEditor: null
 
     }
   },
@@ -108,9 +114,9 @@ export default {
   },
 
   computed: {
-    contentForEditor: function () {
-      return this.edit.content
-    }
+    // contentForEditor: function () {
+    //   return this.edit.content
+    // }
   },
 
   firebase: {
@@ -118,12 +124,16 @@ export default {
   },
 
   methods: {
+    setEditorContent: function () {
+      this.htmlForEditor = this.edit.content
+    },
+
     handleUpdatedContent: function (value) {
       this.newContent = value
     },
 
     handleEditedContent(value) {
-      console.log(value);
+      this.edit.content = value
     },
 
     testEnter() {
@@ -140,10 +150,13 @@ export default {
     },
 
     handleEditClick(post) {
-      let postToEdit = post
-      this.edit = postToEdit
-      console.log(post);
-      this.toggle()
+      let vm = this
+      vm.edit = post
+      vm.toggle()
+      vm.$nextTick(function () {
+        vm.htmlForEditor = vm.edit.content
+      })
+
     },
 
     cancelEdit() {
@@ -165,6 +178,9 @@ export default {
         content: newContent
       })
       this.toggle()
+      this.createNewPost = false
+      this.newTitle = ''
+      this.newContent = ''
     },
 
     deletePost(post) {
@@ -195,6 +211,7 @@ export default {
         title: 'My Pushed Title 4',
         content: 'my post content 4'
       })
+
     },
 
     updatePost(post) {
@@ -299,10 +316,26 @@ export default {
 
 .createNewPost {
   padding: 1em;
+  background: #fafafa;
+
+  & > * {
+    // display: block;
+    margin: 1em 0;
+
+    &:not(button) {
+        width: 100%;
+    }
+  }
+
 }
 // Edit Post Section
+
+.quillWrapper {
+  // padding-bottom: 1em;
+}
 .editPost {
     padding: 1em;
+    background: #fafafa;
 
     & > * {
         // display: block;
