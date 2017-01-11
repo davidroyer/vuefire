@@ -67,9 +67,16 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  state.mainMenuIsOpen = !state.mainMenuIsOpen
-  console.log(state.mainMenuIsOpen);
-  next()
+
+  if (state.mainMenuIsOpen) {
+    state.mainMenuIsOpen = false
+    next()
+  } else {
+    next()
+  }
+
+
+
 })
 
 /* eslint-disable no-new */

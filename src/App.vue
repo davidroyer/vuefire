@@ -9,7 +9,7 @@
 
     <mu-drawer left :open="sharedState.mainMenuIsOpen" @close="toggleMenu()" width="280px">
       <mu-appbar title="Menu">
-       <mu-icon-button icon='close' slot="right" @click="menuIsOpen = false"/>
+       <mu-icon-button icon='close' slot="right" @click="sharedState.mainMenuIsOpen = false"/>
       </mu-appbar>
         <ul class="main-menu">
           <li>
