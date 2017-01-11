@@ -7,12 +7,13 @@
       <mu-flat-button v-else key="admin" color="white" label="Logout" slot="right" @click="logout"/>
     </mu-appbar>
 
-    <mu-drawer left :open="menuIsOpen" @close="toggleMenu()" width="280px">
-      <mu-appbar title="Menu"/>
-      <!-- <mu-list> -->
-        <ul>
+    <mu-drawer left :open="sharedState.mainMenuIsOpen" @close="toggleMenu()" width="280px">
+      <mu-appbar title="Menu">
+       <mu-icon-button icon='close' slot="right" @click="menuIsOpen = false"/>
+      </mu-appbar>
+        <ul class="main-menu">
           <li>
-            <router-link to="/">Home</router-link>
+            <router-link to="/" exact>Home</router-link>
           </li>
            <li>
              <router-link to="/logout">Log out</router-link>
@@ -28,7 +29,7 @@
              <router-link to="/dashboard">Dashboard</router-link>
            </li>
         </ul>
-        <mu-flat-button label="Close" class="demo-flat-button" @click="menuIsOpen = false" backgroundColor="#eee"/>
+
 
     </mu-drawer>
 
@@ -72,7 +73,7 @@ export default {
       posts: [],
       photo: null,
       sharedState: store.state,
-      menuIsOpen: false
+      value: ''
     }
   },
 
@@ -92,12 +93,22 @@ export default {
 
 
   methods: {
+    routerGo() {
+      this.toggleMenu()
+      this.$router.push({ path: 'admin'})
+
+    },
+
+    handleChange (val) {
+      this.value = val
+    },
+
     handleClick() {
       alert('click')
     },
 
     toggleMenu() {
-      this.menuIsOpen = !this.menuIsOpen
+      this.sharedState.mainMenuIsOpen = !this.sharedState.mainMenuIsOpen
     },
 
     login() {
@@ -160,7 +171,28 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
+.main-menu {
+  list-style-type: none;
+  padding-left: 20px;
+  & li {
+    margin: 8px 0;
+
+    & a {
+      font-size: 16px;
+      color: rgba(0,0,0,.87);
+      padding: 8px 0;
+      display: block;
+
+      &.router-link-active {
+        color: #03a9f4;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .3s ease;
 }

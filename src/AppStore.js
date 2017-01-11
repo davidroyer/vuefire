@@ -14,7 +14,8 @@ module.exports.auth = firebase.auth()
 
 export const store = {
   state: {
-    authorized: null
+    authorized: null,
+    mainMenuIsOpen: false
   },
 
   logUserIn() {

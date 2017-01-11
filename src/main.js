@@ -23,6 +23,7 @@ import Dashboard from './components/Dashboard.vue'
 import Login from './components/Login.vue'
 import Logout from './components/Logout.vue'
 
+
 function requireAuth (to, from, next) {
   if (!state.authorized) {
     next({
@@ -63,6 +64,12 @@ const router = new VueRouter({
     //   }
     // }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  state.mainMenuIsOpen = !state.mainMenuIsOpen
+  console.log(state.mainMenuIsOpen);
+  next()
 })
 
 /* eslint-disable no-new */

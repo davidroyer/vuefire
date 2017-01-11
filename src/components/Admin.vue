@@ -11,6 +11,17 @@ export default {
     Dashboard
   },
 
+  beforeRouteLeave (to, from, next) {
+    console.log('route fired');
+    console.log(this);
+    // if (this.menuIsOpen) {
+    //   this.toggle()
+      next()
+    // } else {
+    //   next()
+    // }
+  },
+
   methods: {
     logoutClicked() {
       this.$emit('logoutClicked')
