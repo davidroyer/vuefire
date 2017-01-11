@@ -5,7 +5,7 @@
 
   <div class="restricted" v-show="authorized">
     <!-- <mu-list> -->
-<transition-group name="list-complete" tag="div">
+<transition-group name="list-complete" tag="div" class="mu-list">
 
   <!-- <div class="list-complete-item" v-for="post in dbPosts" :key="post['.key']">
     <h3 v-text="post.title"></h3>
@@ -45,7 +45,7 @@
     </div>
 
   </mu-drawer>
- <mu-float-button icon="add" secondary mini class="addPost" @click="handleNewPost"/>
+ <mu-float-button icon="add" secondary class="addPost" @click="handleNewPost"/>
   <!-- <label>
       Email
       <input type="text" v-model="email">
