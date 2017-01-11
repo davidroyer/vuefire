@@ -23,6 +23,9 @@
               <router-link :to="{path: '/admin'}">Admin</router-link>
             </li>
             <li>
+              <router-link to="/editor">Editor</router-link>
+            </li>
+            <li>
               <router-link to="/login">Log in</router-link>
             </li>
            <li>
@@ -41,6 +44,7 @@
 </template>
 
 <script>
+
 // var config = {
 //   apiKey: 'AIzaSyCNIjlw4gVqGQgSr6pvcHqmWK4eA1KnTyk',
 //   authDomain: 'vue-firebase-e123d.firebaseapp.com',
@@ -61,6 +65,7 @@ import {store, db, auth} from './AppStore.js'
 export default {
   name: 'app',
   components: {
+
     // Public,
     // Admin
   },

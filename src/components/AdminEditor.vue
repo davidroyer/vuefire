@@ -1,14 +1,14 @@
 <template>
   <div class="admin">
-    <dashboard></dashboard>
+    <dashboard-editor></dashboard-editor>
   </div>
 </template>
 
 <script>
-import Dashboard from './Dashboard'
+import DashboardEditor from './DashboardEditor'
 export default {
   components: {
-    Dashboard
+    DashboardEditor
   },
 
   methods: {

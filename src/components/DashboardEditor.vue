@@ -22,16 +22,19 @@
 </transition-group>
     <!-- </mu-list> -->
   </div>
-  <vue-editor
-    :use-save-button="false"
-    :show-preview="true">
-  </vue-editor>
+
   <mu-drawer right :open="open" @close="toggle()">
     <!-- <mu-appbar title="Muse UI"/> -->
 
     <div v-if="edit" class="editPost">
       <h1>Edit Post</h1>
       <mu-text-field label="Post Title" v-model="edit.title"/>
+
+      <vue-editor
+        :use-save-button="false"
+        :editor-content="contentForEditor"
+        @editor-updated="handleEditedContent">
+      </vue-editor>
       <mu-text-field label="Post Content" multiLine :rows="3" v-model="edit.content"></mu-text-field>
       <mu-raised-button label="Save" class="demo-raised-button" primary @click="updatePost(edit)" />
       <mu-raised-button label="Cancel" class="demo-raised-button" secondary @click="cancelEdit" />
@@ -42,7 +45,12 @@
 
       <mu-text-field label="Post Title" v-model="newTitle" labelFloat/>
 
-      <mu-text-field @keyup.native.enter.prevent="saveNewPost(newTitle, newContent)" label="Post Content" multiLine :rows="3" v-model="newContent" labelFloat></mu-text-field>
+      <vue-editor
+        :use-save-button="false"
+        @editor-updated="handleUpdatedContent">
+      </vue-editor>
+
+      <!-- <mu-text-field @keyup.native.enter.prevent="saveNewPost(newTitle, newContent)" label="Post Content" multiLine :rows="3" v-model="newContent" labelFloat></mu-text-field> -->
       <mu-raised-button label="Save" class="demo-raised-button" primary @click="saveNewPost(newTitle, newContent)" />
       <mu-raised-button label="Cancel" class="demo-raised-button" secondary @click="cancelNewPost" />
     </div>
@@ -99,11 +107,25 @@ export default {
     VueEditor
   },
 
+  computed: {
+    contentForEditor: function () {
+      return this.edit.content
+    }
+  },
+
   firebase: {
     dbPosts: postsRef
   },
 
   methods: {
+    handleUpdatedContent: function (value) {
+      this.newContent = value
+    },
+
+    handleEditedContent(value) {
+      console.log(value);
+    },
+
     testEnter() {
       alert('enter works')
     },

@@ -7,6 +7,7 @@ import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
+
 // import VueMaterial from 'vue-material'
 // import 'vue-material/dist/vue-material.css'
 Vue.use(MuseUI)
@@ -19,6 +20,7 @@ Vue.use(VueRouter)
 const state = store.state
 
 import Admin from './components/Admin.vue'
+import AdminEditor from './components/AdminEditor.vue'
 import Dashboard from './components/Dashboard.vue'
 import Login from './components/Login.vue'
 import Logout from './components/Logout.vue'
@@ -52,6 +54,7 @@ const router = new VueRouter({
   base: '/vuefire/',
   routes: [
     { path: '/', component: Login  },
+    { path: '*/editor', component: AdminEditor },
     { path: '*/admin', component: Admin },
     { path: '*/dashboard', component: Dashboard},
     // { path: '/dashboard', component: Dashboard},

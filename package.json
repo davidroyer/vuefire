@@ -14,7 +14,8 @@
     "keycode": "^2.1.8",
     "muse-ui": "^2.0.0-rc.1",
     "vue": "^2.1.0",
-    "vue-material": "^0.6.0"
+    "vue-material": "^0.6.0",
+    "vue2-editor": "^1.0.99"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
