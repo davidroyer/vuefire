@@ -20,7 +20,7 @@
 
            </li>
             <li>
-              <router-link :to="{path: '/vuefire/admin'}" append>Admin</router-link>
+              <router-link :to="{path: '/admin'}">Admin</router-link>
             </li>
             <li>
               <router-link to="/login">Log in</router-link>

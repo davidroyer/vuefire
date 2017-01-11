@@ -49,7 +49,7 @@ function requireAuth (to, from, next) {
 
 const router = new VueRouter({
   mode: 'history',
-  base: __dirname,
+  base: '/vuefire/',
   routes: [
     { path: '/', component: Login  },
     { path: '*/admin', component: Admin },
