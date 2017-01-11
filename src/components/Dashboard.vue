@@ -4,14 +4,23 @@
 
 
   <div class="restricted" v-show="authorized">
-    <mu-list>
-      <mu-list-item v-for="post in dbPosts" :key="post['.key']" :title="post.title">
-        <div class="icon-button-contaner" slot="right">
-          <mu-icon-button icon="edit" @click="handleEditClick(post)" />
-          <mu-icon-button icon="delete" @click="deletePost(post)"/>
-        </div>
-      </mu-list-item>
-    </mu-list>
+    <!-- <mu-list> -->
+<transition-group name="list-complete" tag="div">
+
+  <!-- <div class="list-complete-item" v-for="post in dbPosts" :key="post['.key']">
+    <h3 v-text="post.title"></h3>
+    <mu-icon-button icon="edit" @click="handleEditClick(post)" />
+    <mu-icon-button icon="delete" @click="deletePost(post)"/>
+  </div> -->
+
+  <mu-list-item v-for="post in dbPosts" :key="post['.key']" :title="post.title" class="list-complete-item">
+    <div class="icon-button-contaner" slot="right">
+      <mu-icon-button icon="edit" @click="handleEditClick(post)" />
+      <mu-icon-button icon="delete" @click="deletePost(post)"/>
+    </div>
+  </mu-list-item>
+</transition-group>
+    <!-- </mu-list> -->
   </div>
 
   <mu-drawer right :open="open" @close="toggle()">
@@ -29,7 +38,8 @@
       <h1>New Post</h1>
 
       <mu-text-field label="Post Title" v-model="newTitle" labelFloat/>
-      <mu-text-field label="Post Content" multiLine :rows="3" v-model="newContent" labelFloat></mu-text-field>
+
+      <mu-text-field @keyup.native.enter.prevent="saveNewPost(newTitle, newContent)" label="Post Content" multiLine :rows="3" v-model="newContent" labelFloat></mu-text-field>
       <mu-raised-button label="Save" class="demo-raised-button" primary @click="saveNewPost(newTitle, newContent)" />
       <mu-raised-button label="Cancel" class="demo-raised-button" secondary @click="cancelNewPost" />
     </div>
@@ -86,6 +96,10 @@ export default {
   },
 
   methods: {
+    testEnter() {
+      alert('enter works')
+    },
+
     toggle() {
       this.open = !this.open
     },
@@ -168,6 +182,7 @@ export default {
             message: 'Congrats, this is a success message.',
             type: 'success'
           });
+          vm.toggle()
         }
       })
     },
@@ -183,7 +198,21 @@ export default {
 </script>
 
 <style lang="scss">
+.list-complete-item {
+  transition: all 1s ease-in-out;
+  // display: inline-block;
+  margin-right: 10px;
+}
+.list-complete-enter, .list-complete-leave-to, .list-complete-leave-active
+/* .list-complete-leave-active for <2.1.8 */ {
+  transition: all .7s ease-in-out;
+  opacity: 0;
+  transform: translateX(-300px);
 
+}
+.list-complete-leave-active {
+  position: absolute;
+}
 .addPost {
   position: fixed;
     bottom: 20px;

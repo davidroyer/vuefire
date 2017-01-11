@@ -8,7 +8,7 @@
     </mu-appbar>
 
     <mu-drawer left :open="menuIsOpen" @close="toggleMenu()" width="280px">
-      <mu-appbar title="Muse UI"/>
+      <mu-appbar title="Menu"/>
       <!-- <mu-list> -->
         <ul>
           <li>
